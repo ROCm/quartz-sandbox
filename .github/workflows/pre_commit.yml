@@ -6,7 +6,11 @@ name: pre-commit
 on:
   pull_request:
   push:
+<<<<<<< HEAD
     branches: [main]
+=======
+    branches: [main, develop]
+>>>>>>> 762df3e (Add pre-commit config and workflow file (#31))
 
 permissions:
   contents: read
