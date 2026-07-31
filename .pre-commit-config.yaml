@@ -14,14 +14,7 @@ repos:
     -   id: check-merge-conflict
     -   id: check-added-large-files
     -   id: mixed-line-ending
-<<<<<<< HEAD
-<<<<<<< HEAD
     -   id: requirements-txt-fixer
-=======
->>>>>>> 762df3e (Add pre-commit config and workflow file (#31))
-=======
-    -   id: requirements-txt-fixer
->>>>>>> fe20647 (add requirements.txt with python dependencies for the receive_therock pipeline (#49))
 -   repo: https://github.com/psf/black
     rev: 25.11.0
     hooks:
@@ -47,7 +40,6 @@ repos:
     - id: actionlint
       args: [-shellcheck=, -ignore, 'label ".+" is unknown']
 
-<<<<<<< HEAD
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v2.3.0
   hooks:
@@ -56,8 +48,6 @@ repos:
     additional_dependencies: [pydantic>=2]
     args: [--config-file=mypy.ini]
 
-=======
->>>>>>> 762df3e (Add pre-commit config and workflow file (#31))
 - repo: local
   hooks:
   - id: test-file-naming
