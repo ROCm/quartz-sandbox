@@ -13,12 +13,12 @@ A single piece of work usually spans several of these repos. For example,
 exercising the `rockrel` / `therock` -> Quartz path touches three repos; the
 downstream path touches two (Quartz plus downstream).
 
-| Repo | Stubs | Role |
-| ---- | ----- | ---- |
-| **[quartz-sandbox](https://github.com/ROCm/quartz-sandbox)** (you are here) | [Quartz](https://github.com/ROCm/Quartz) | Hub: validate, transform, database |
-| [quartz-sandbox-therock](https://github.com/ROCm/quartz-sandbox-therock) | [ROCm/TheRock](https://github.com/ROCm/TheRock) | Producer (build/test data) |
-| [quartz-sandbox-rockrel](https://github.com/ROCm/quartz-sandbox-rockrel) | [ROCm/rockrel](https://github.com/ROCm/rockrel) | Producer (nightly/prerelease triggers) |
-| [quartz-sandbox-downstream](https://github.com/ROCm/quartz-sandbox-downstream) | a downstream project | Consumer and reporter |
+| Repo                                                                           | Stubs                                           | Role                                   |
+| ------------------------------------------------------------------------------ | ----------------------------------------------- | -------------------------------------- |
+| **[quartz-sandbox](https://github.com/ROCm/quartz-sandbox)** (you are here)    | [Quartz](https://github.com/ROCm/Quartz)        | Hub: validate, transform, database     |
+| [quartz-sandbox-therock](https://github.com/ROCm/quartz-sandbox-therock)       | [ROCm/TheRock](https://github.com/ROCm/TheRock) | Producer (build/test data)             |
+| [quartz-sandbox-rockrel](https://github.com/ROCm/quartz-sandbox-rockrel)       | [ROCm/rockrel](https://github.com/ROCm/rockrel) | Producer (nightly/prerelease triggers) |
+| [quartz-sandbox-downstream](https://github.com/ROCm/quartz-sandbox-downstream) | a downstream project                            | Consumer and reporter                  |
 
 ## Data flow
 
