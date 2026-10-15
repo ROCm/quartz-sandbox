@@ -1,45 +1,55 @@
-# Quartz
+# quartz-sandbox
 
-Quartz is the central CI/CD data hub for the ROCm ecosystem. It aggregates the
-build and test results of [ROCm/TheRock](https://github.com/ROCm/TheRock) and of
-the downstream projects that depend on it. The aggregated data is exposed through
-two paths: machine-readable status files for automated consumers, and analytics
-dashboards for human viewing. For each ROCm nightly and prerelease, the status
-files publish TheRock's build and test results.
+This is one of the Quartz **sandbox** repos. Together they stub the entire
+functionality of [Quartz](https://github.com/ROCm/Quartz) so development can
+happen in quick cycles, outside of production. The sandbox mirrors the
+production data flow described in
+[**RFC-0011**](https://github.com/ROCm/TheRock/blob/main/docs/rfcs/RFC0011-Quartz-CICD-Datahub.md),
+using stand-in repos in place of the real producers and consumers.
 
-Quartz accepts two kinds of data. TheRock reports the outcome of each release
-build. Downstream projects report their own build and test results against a
-given release. The first is available now. The second is planned.
+## The sandbox repos
 
-Producers (TheRock and, later, downstream projects) and consumers (downstream
-projects and the analytics dashboards) interact with Quartz through GitHub Actions
-workflows and files in this repository.
+A single piece of work usually spans several of these repos. For example,
+exercising the `rockrel` / `therock` -> Quartz path touches three repos; the
+downstream path touches two (Quartz plus downstream).
 
-## How to interact with Quartz
+| Repo                                                                           | Stubs                                           | Role                                   |
+| ------------------------------------------------------------------------------ | ----------------------------------------------- | -------------------------------------- |
+| **[quartz-sandbox](https://github.com/ROCm/quartz-sandbox)** (you are here)    | [Quartz](https://github.com/ROCm/Quartz)        | Hub: validate, transform, database     |
+| [quartz-sandbox-therock](https://github.com/ROCm/quartz-sandbox-therock)       | [ROCm/TheRock](https://github.com/ROCm/TheRock) | Producer (build/test data)             |
+| [quartz-sandbox-rockrel](https://github.com/ROCm/quartz-sandbox-rockrel)       | [ROCm/rockrel](https://github.com/ROCm/rockrel) | Producer (nightly/prerelease triggers) |
+| [quartz-sandbox-downstream](https://github.com/ROCm/quartz-sandbox-downstream) | a downstream project                            | Consumer and reporter                  |
 
-| Interaction                                 | Direction | Status    | Guide                                  |
-| ------------------------------------------- | --------- | --------- | -------------------------------------- |
-| Poll `status.json` for ROCm release results | Read      | Available | [docs/status-json/](docs/status-json/) |
-| Push notifications on new results           | Read      | Planned   | n/a                                    |
-| Report downstream build/test results back   | Write     | Planned   | n/a                                    |
+## Data flow
 
-Today the only way to interact with Quartz is to poll the published
-`status.json` files. If you maintain a downstream project and want to react to
-new ROCm nightlies or prereleases, see
-**[docs/status-json/](docs/status-json/)**. It covers what `status.json`
-contains, the available endpoints, how to poll it, and a copy-paste example
-GitHub Actions workflow.
+```text
+      +------------------------+
+      | quartz-sandbox-rockrel |
+      |     (stubs rockrel)    |
+      +------------+-----------+
+                   | triggers release workflows
+                   v
+      +------------------------+
+      | quartz-sandbox-therock |
+      |     (stubs TheRock)    |
+      +------------+-----------+
+                   | job + workflow data
+                   v
+        +--------------------+   notify        +---------------------------+
+        |    quartz-sandbox  |---------------->| quartz-sandbox-downstream |
+        |    (stubs Quartz)  |   status.json   |    (stubs downstream)     |
+        |  * validate        |<----------------|                           |
+        |  * transform       |   report back   +---------------------------+
+        |  * database        |
+        +--------------------+
+```
 
 ## Contributing
 
-**Open your pull requests against `develop`, not `main`.** See
-[`CONTRIBUTING.md`](CONTRIBUTING.md) for the branching model and contribution
-policies.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md). Note the shared production GitHub Apps
+caveat described there.
 
 ## Reference
 
-- **RFC-0011** - the authoritative design and full delivery plan:
-  [`docs/rfcs/RFC0011-Quartz-CICD-Datahub.md`](https://github.com/ROCm/TheRock/blob/main/docs/rfcs/RFC0011-Quartz-CICD-Datahub.md)
-  in ROCm/TheRock. Discussion:
-  [ROCm/TheRock#3782](https://github.com/ROCm/TheRock/discussions/3782).
-- **[docs/status-json/](docs/status-json/)** - the consumer guide for `status.json`.
+- [Quartz](https://github.com/ROCm/Quartz) - the production repo these sandboxes mirror.
+- [**RFC-0011**](https://github.com/ROCm/TheRock/blob/main/docs/rfcs/RFC0011-Quartz-CICD-Datahub.md) - the authoritative Quartz design, in [ROCm/TheRock](https://github.com/ROCm/TheRock).
